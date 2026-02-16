@@ -86,90 +86,15 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 # Claude Code to PATH
 export PATH="$HOME/.local/bin:$PATH"
-# path=("${ASDF_DATA_DIR:-$HOME/.asdf}/shims" $path)
 
 # Preferred editor
 export EDITOR='code'
 
-## Use GNU utilities instead of BSD
-#   brew install coreutils diffutils ed findutils gawk gnu-sed gnu-tar gnu-which grep gzip watch wdiff wget
-#
-#   coreutils, diffutils, findutils, gawk, gnu-sed, gnu-tar, gnu-which, grep
-#
-# Packages without gnubin (just install to homebrew bin, already in PATH):
-#   ed, gzip, watch, wdiff, wget
+source "${0:A:h}/.zsh/gnu-utils.zsh"
 
-HOMEBREW_PREFIX="/opt/homebrew"
+source "${0:A:h}/.zsh/asdf.zsh"
 
-# Add gnubin directories to PATH (order matters - last added = highest priority)
-path=(
-    "${HOMEBREW_PREFIX}/opt/coreutils/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/diffutils/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/findutils/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/gawk/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/gnu-tar/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/gnu-which/libexec/gnubin"
-    "${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin"
-    $path
-)
-
-# ## ASDF version manager
-# export ASDF_FORCE_PREPEND=1
-path=("${ASDF_DATA_DIR:-$HOME/.asdf}/shims" $path)
-
-# # Enable completions
-mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions"
-asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
-fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
-autoload -Uz compinit && compinit
-
-# `asdf which` extension - adds an option to specify a version as the third arg
-# to the which subcommand and get a path to the binary, e.g.:
-#
-#   ➜  ~$ asdf which python
-#   /Users/jstroop/.asdf/installs/python/3.8.5/bin/python  # version in .tool-versions
-#   ➜  ~$ asdf which python 3.7.6
-#   /Users/jstroop/.asdf/installs/python/3.7.6/bin/python  # version from 3rd arg
-#
-# https://asdf-vm.com/manage/commands.html
-
-ASDF_LANGS=("python")
-
-function asdf() {
-    if [[ "$1" == "which" && -n "$3" && ${ASDF_LANGS[(Ie)$2]} -gt 0 ]]; then
-        local where
-        where=$(command asdf where "$2" "$3")
-        if [[ "$where" == "Version not installed" ]]; then
-            echo "$where"
-        else
-            echo "$where/bin/$2"
-        fi
-    else
-        command asdf "$@"
-    fi
-}
-
-## Homebrew update check (runs once per 24 hours)
-BREW_CHECK_STAMP="$HOME/.cache/brew_check.stamp"
-
-# Create stamp file if needed (~/.cache should already exist)
-[[ -e "$BREW_CHECK_STAMP" ]] || touch "$BREW_CHECK_STAMP"
-
-# Check if stamp is older than 24 hours (-mtime +0 means modified more than 24h ago)
-if [[ -n "$(find "$BREW_CHECK_STAMP" -mtime +0 2>/dev/null)" ]]; then
-    print -P " %F{magenta}***%f Homebrew has not been checked in 24+ hours. Checking..."
-    brew update >/dev/null 2>&1
-    local outdated
-    outdated=$(brew outdated -v)
-    if [[ -n "$outdated" ]]; then
-        print -P " %F{magenta}***%f The following packages can be upgraded:"
-        while IFS= read -r line; do
-            print -P "      %F{208}*%f $line"
-        done <<< "$outdated"
-    fi
-    touch "$BREW_CHECK_STAMP"
-fi
+source "${0:A:h}/.zsh/brew-check.zsh"
 
 
 # Compilation flags
