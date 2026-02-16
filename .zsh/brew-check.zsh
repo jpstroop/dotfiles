@@ -15,6 +15,11 @@ if [[ -n "$(find "$BREW_CHECK_STAMP" -mtime +0 2>/dev/null)" ]]; then
         while IFS= read -r line; do
             print -P "      %F{208}*%f $line"
         done <<< "$outdated"
+        print -n " Upgrade now? [y/N] "
+        read -r response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            brew upgrade
+        fi
     fi
     touch "$BREW_CHECK_STAMP"
 fi
