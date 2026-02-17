@@ -68,12 +68,37 @@ fi
 ln -sfn "$DOTFILES_DIR/.zsh" "$HOME/.zsh"
 ok '.zsh/ symlinked'
 
-# 7. Ensure ~/.cache exists (used by brew-check.zsh)
+# 7. Install asdf plugins
+for plugin in python ruby; do
+    if asdf plugin list 2>/dev/null | grep -q "$plugin"; then
+        ok "asdf $plugin plugin already installed"
+    else
+        info "Installing asdf $plugin plugin..."
+        asdf plugin add "$plugin"
+        ok "asdf $plugin plugin installed"
+    fi
+done
+
+# 8. Symlink .tool-versions
+info 'Symlinking .tool-versions...'
+if [[ -f "$HOME/.tool-versions" && ! -L "$HOME/.tool-versions" ]]; then
+    mv "$HOME/.tool-versions" "$HOME/.tool-versions.bak"
+    warn "Existing .tool-versions backed up to ~/.tool-versions.bak"
+fi
+ln -sfn "$DOTFILES_DIR/.tool-versions" "$HOME/.tool-versions"
+ok '.tool-versions symlinked'
+
+# 9. Install tool versions from .tool-versions
+info 'Installing asdf tool versions...'
+asdf install
+ok 'Tool versions installed'
+
+# 10. Ensure ~/.cache exists (used by brew-check.zsh)
 mkdir -p "$HOME/.cache"
 
-# 8. Make deployed dotfiles read-only to prevent accidental edits
+# 11. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
-chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
+chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.tool-versions"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
 ok 'Deployed dotfiles are now read-only'
 

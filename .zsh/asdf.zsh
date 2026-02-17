@@ -19,7 +19,7 @@ autoload -Uz compinit && compinit
 #
 # https://asdf-vm.com/manage/commands.html
 
-ASDF_LANGS=('python')
+ASDF_LANGS=('python ruby')
 
 function asdf() {
     if [[ "$1" == 'which' && -n "$3" && ${ASDF_LANGS[(Ie)$2]} -gt 0 ]]; then
