@@ -36,7 +36,7 @@ zstyle ':omz:update' mode auto
 
 # Enable "did you mean X?" correction for mistyped commands
 ENABLE_CORRECTION="true"
-CORRECT_IGNORE_FILE='.*'
+CORRECT_IGNORE='.*'
 
 # Show dots (or custom string) while waiting for slow completions
 # COMPLETION_WAITING_DOTS="true"

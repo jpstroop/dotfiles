@@ -47,7 +47,7 @@ if [[ -f "$HOME/.zprofile" && ! -L "$HOME/.zprofile" ]]; then
     mv "$HOME/.zprofile" "$HOME/.zprofile.bak"
     warn "Existing .zprofile backed up to ~/.zprofile.bak"
 fi
-ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
+ln -sfn "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 ok '.zprofile symlinked'
 
 # 5. Symlink .zshrc
@@ -56,7 +56,7 @@ if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
     warn "Existing .zshrc backed up to ~/.zshrc.bak"
 fi
-ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+ln -sfn "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ok '.zshrc symlinked'
 
 # 6. Symlink .zsh/ directory
@@ -65,7 +65,7 @@ if [[ -d "$HOME/.zsh" && ! -L "$HOME/.zsh" ]]; then
     mv "$HOME/.zsh" "$HOME/.zsh.bak"
     warn "Existing .zsh/ backed up to ~/.zsh.bak"
 fi
-ln -sf "$DOTFILES_DIR/.zsh" "$HOME/.zsh"
+ln -sfn "$DOTFILES_DIR/.zsh" "$HOME/.zsh"
 ok '.zsh/ symlinked'
 
 # 7. Ensure ~/.cache exists (used by brew-check.zsh)
