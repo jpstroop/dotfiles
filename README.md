@@ -14,7 +14,6 @@ Personal zsh configuration for macOS with Oh My Zsh.
   asdf.zsh             # asdf version manager + custom `which` extension
   aliases.zsh          # Custom shell aliases
   brew-check.zsh       # Daily Homebrew update check with upgrade prompt
-.tool-versions         # Default asdf tool versions (symlinked to ~)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 ```
@@ -33,9 +32,9 @@ The install script will:
 1. Install Xcode Command Line Tools (if not already present)
 2. Install Homebrew packages from the Brewfile
 3. Install Oh My Zsh (if not already present)
-4. Symlink `.zprofile`, `.zshrc`, `.zsh/`, and `.tool-versions` into your home directory
+4. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 5. Back up any existing files before overwriting
-6. Install asdf plugins (python, ruby) and tool versions from `.tool-versions`
+6. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
 7. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh

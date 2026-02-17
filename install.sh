@@ -90,17 +90,23 @@ for plugin in python ruby; do
     fi
 done
 
-# 9. Symlink .tool-versions
-info 'Symlinking .tool-versions...'
-if [[ -f "$HOME/.tool-versions" && ! -L "$HOME/.tool-versions" ]]; then
-    mv "$HOME/.tool-versions" "$HOME/.tool-versions.bak"
-    warn "Existing .tool-versions backed up to ~/.tool-versions.bak"
+# 9. Generate .tool-versions if it doesn't exist
+TOOL_VERSIONS="$DOTFILES_DIR/.tool-versions"
+if [[ -f "$TOOL_VERSIONS" ]]; then
+    ok '.tool-versions already exists'
+else
+    info 'Resolving latest tool versions...'
+    for plugin in python ruby; do
+        version=$(asdf latest "$plugin")
+        echo "$plugin $version" >> "$TOOL_VERSIONS"
+        ok "$plugin $version"
+    done
 fi
-ln -sfn "$DOTFILES_DIR/.tool-versions" "$HOME/.tool-versions"
+ln -sfn "$TOOL_VERSIONS" "$HOME/.tool-versions"
 ok '.tool-versions symlinked'
 
 # 10. Install tool versions from .tool-versions
-info 'Installing asdf tool versions...'
+info 'Installing asdf tool versions (this may take a few minutes)...'
 asdf install
 ok 'Tool versions installed'
 
@@ -109,7 +115,7 @@ mkdir -p "$HOME/.cache"
 
 # 12. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
-chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.tool-versions"
+chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
 ok 'Deployed dotfiles are now read-only'
 
