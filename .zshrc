@@ -9,7 +9,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # OMZ theme — controls prompt appearance (colors, git status, layout)
 # See available themes: https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # Set to "random" to pick a new theme each session
-ZSH_THEME="robbyrussell"
+ZSH_THEME='robbyrussell'
 
 # When ZSH_THEME="random", restrict to these themes:
 # ZSH_THEME_RANDOM_CANDIDATES=("robbyrussell" "agnoster")
@@ -35,7 +35,7 @@ zstyle ':omz:update' mode auto
 # DISABLE_AUTO_TITLE="true"
 
 # Enable "did you mean X?" correction for mistyped commands
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Show dots (or custom string) while waiting for slow completions
 # COMPLETION_WAITING_DOTS="true"
@@ -61,6 +61,7 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # Source modular configs (personal customizations, loaded after OMZ)
+source "${0:A:h}/.zsh/prompt.zsh"
 source "${0:A:h}/.zsh/environment.zsh"
 source "${0:A:h}/.zsh/gnu-utils.zsh"
 source "${0:A:h}/.zsh/asdf.zsh"

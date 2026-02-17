@@ -2,7 +2,7 @@
 # To install GNU utilities, run: 
 #   brew install coreutils diffutils ed findutils gawk gnu-sed gnu-tar gnu-which grep gzip watch wdiff wget
 
-HOMEBREW_PREFIX="/opt/homebrew"
+HOMEBREW_PREFIX='/opt/homebrew'
 
 # Add gnubin directories to PATH (order matters - last added = highest priority)
 path=(

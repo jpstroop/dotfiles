@@ -19,13 +19,13 @@ autoload -Uz compinit && compinit
 #
 # https://asdf-vm.com/manage/commands.html
 
-ASDF_LANGS=("python")
+ASDF_LANGS=('python')
 
 function asdf() {
-    if [[ "$1" == "which" && -n "$3" && ${ASDF_LANGS[(Ie)$2]} -gt 0 ]]; then
+    if [[ "$1" == 'which' && -n "$3" && ${ASDF_LANGS[(Ie)$2]} -gt 0 ]]; then
         local where
         where=$(command asdf where "$2" "$3")
-        if [[ "$where" == "Version not installed" ]]; then
+        if [[ "$where" == 'Version not installed' ]]; then
             echo "$where"
         else
             echo "$where/bin/$2"
