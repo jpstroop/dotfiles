@@ -41,7 +41,16 @@ else
     ok 'Oh My Zsh installed'
 fi
 
-# 4. Symlink .zshrc
+# 4. Symlink .zprofile
+info 'Symlinking .zprofile...'
+if [[ -f "$HOME/.zprofile" && ! -L "$HOME/.zprofile" ]]; then
+    mv "$HOME/.zprofile" "$HOME/.zprofile.bak"
+    warn "Existing .zprofile backed up to ~/.zprofile.bak"
+fi
+ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
+ok '.zprofile symlinked'
+
+# 5. Symlink .zshrc
 info 'Symlinking .zshrc...'
 if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
@@ -50,7 +59,7 @@ fi
 ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ok '.zshrc symlinked'
 
-# 5. Symlink .zsh/
+# 6. Symlink .zsh/ directory
 info 'Symlinking .zsh/ directory...'
 if [[ -d "$HOME/.zsh" && ! -L "$HOME/.zsh" ]]; then
     mv "$HOME/.zsh" "$HOME/.zsh.bak"
@@ -59,7 +68,7 @@ fi
 ln -sf "$DOTFILES_DIR/.zsh" "$HOME/.zsh"
 ok '.zsh/ symlinked'
 
-# 6. Ensure ~/.cache exists (used by brew-check.zsh)
+# 7. Ensure ~/.cache exists (used by brew-check.zsh)
 mkdir -p "$HOME/.cache"
 
 echo ''

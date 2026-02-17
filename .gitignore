@@ -7,5 +7,8 @@
 *.pem
 *.secret
 
+# Shell history (machine-specific, potentially sensitive)
+.zsh_history
+
 # macOS
 .DS_Store
