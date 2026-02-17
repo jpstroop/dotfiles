@@ -51,7 +51,7 @@ Homebrew and prepends them to `PATH` so they take precedence.
 ### asdf version manager
 
 Adds asdf shims to `PATH` and sets up completions. Extends `asdf which` with an
-optional third argument to look up the binary path for a specific version:
+optional third argument to look up the executable path for a specific version:
 
 ```sh
 asdf which python 3.7.6
