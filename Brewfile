@@ -23,5 +23,8 @@ brew 'git'
 brew 'asdf'
 brew 'pdm'
 
+# Build dependencies for asdf-managed languages
+brew 'libyaml'
+
 # Fonts
 cask 'font-cascadia-code'
