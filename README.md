@@ -37,6 +37,40 @@ The install script will:
 
 Homebrew itself must be installed first: https://brew.sh
 
+## What's customized
+
+### GNU coreutils over BSD
+
+GNU coreutils, findutils, grep, sed, tar, and others are more full-featured
+than the BSD versions that ship with macOS. This config installs them via
+Homebrew and prepends them to `PATH` so they take precedence.
+`LS_COLORS` is set via `dircolors` for colored `ls` output.
+
+### asdf version manager
+
+Adds asdf shims to `PATH` and sets up completions. Extends `asdf which` with an
+optional third argument to look up the binary path for a specific version:
+
+```sh
+asdf which python 3.7.6
+# /Users/you/.asdf/installs/python/3.7.6/bin/python
+```
+
+### Homebrew update check
+
+On shell startup, if it's been more than 24 hours since the last check, runs
+`brew update` and lists outdated packages with an interactive upgrade prompt.
+
+### Prompt
+
+Overrides the robbyrussell theme to show the full path relative to `$HOME`
+(`%~`) instead of just the current directory name.
+
+### Aliases
+
+Overrides Oh My Zsh's `ls` alias to use GNU-compatible flags (`--color=auto`)
+and show hidden files (`-a`).
+
 ## Development workflow
 
 The deployed copy lives at `~/dotfiles`. Make changes in a separate working
