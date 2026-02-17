@@ -30,12 +30,13 @@ exec zsh
 ```
 
 The install script will:
-1. Install Homebrew packages from the Brewfile
-2. Install Oh My Zsh (if not already present)
-3. Symlink `.zprofile`, `.zshrc`, `.zsh/`, and `.tool-versions` into your home directory
-4. Back up any existing files before overwriting
-5. Install asdf plugins (python, ruby) and tool versions from `.tool-versions`
-6. Make deployed dotfiles read-only to prevent accidental edits
+1. Install Xcode Command Line Tools (if not already present)
+2. Install Homebrew packages from the Brewfile
+3. Install Oh My Zsh (if not already present)
+4. Symlink `.zprofile`, `.zshrc`, `.zsh/`, and `.tool-versions` into your home directory
+5. Back up any existing files before overwriting
+6. Install asdf plugins (python, ruby) and tool versions from `.tool-versions`
+7. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh
 

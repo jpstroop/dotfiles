@@ -14,7 +14,18 @@ if [[ ! -f "$DOTFILES_DIR/install.sh" ]]; then
     exit 1
 fi
 
-# 1. Check for Homebrew
+# 1. Check for Xcode Command Line Tools
+info 'Checking for Xcode Command Line Tools...'
+if xcode-select -p &>/dev/null; then
+    ok 'Xcode Command Line Tools found'
+else
+    info 'Installing Xcode Command Line Tools (follow the dialog)...'
+    xcode-select --install
+    warn 'Waiting for installation to complete. Re-run this script when done.'
+    exit 0
+fi
+
+# 2. Check for Homebrew
 info 'Checking for Homebrew...'
 if ! command -v brew &>/dev/null; then
     warn 'Homebrew is not installed.'
@@ -23,12 +34,12 @@ if ! command -v brew &>/dev/null; then
 fi
 ok 'Homebrew found'
 
-# 2. Install Homebrew packages
+# 3. Install Homebrew packages
 info 'Installing Homebrew packages from Brewfile...'
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 ok 'Homebrew packages installed'
 
-# 3. Install Oh My Zsh
+# 4. Install Oh My Zsh
 info 'Checking for Oh My Zsh...'
 if [[ -d "$HOME/.oh-my-zsh" ]]; then
     ok 'Oh My Zsh already installed'
@@ -41,7 +52,7 @@ else
     ok 'Oh My Zsh installed'
 fi
 
-# 4. Symlink .zprofile
+# 5. Symlink .zprofile
 info 'Symlinking .zprofile...'
 if [[ -f "$HOME/.zprofile" && ! -L "$HOME/.zprofile" ]]; then
     mv "$HOME/.zprofile" "$HOME/.zprofile.bak"
@@ -50,7 +61,7 @@ fi
 ln -sfn "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 ok '.zprofile symlinked'
 
-# 5. Symlink .zshrc
+# 6. Symlink .zshrc
 info 'Symlinking .zshrc...'
 if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
@@ -59,7 +70,7 @@ fi
 ln -sfn "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ok '.zshrc symlinked'
 
-# 6. Symlink .zsh/ directory
+# 7. Symlink .zsh/ directory
 info 'Symlinking .zsh/ directory...'
 if [[ -d "$HOME/.zsh" && ! -L "$HOME/.zsh" ]]; then
     mv "$HOME/.zsh" "$HOME/.zsh.bak"
@@ -68,7 +79,7 @@ fi
 ln -sfn "$DOTFILES_DIR/.zsh" "$HOME/.zsh"
 ok '.zsh/ symlinked'
 
-# 7. Install asdf plugins
+# 8. Install asdf plugins
 for plugin in python ruby; do
     if asdf plugin list 2>/dev/null | grep -q "$plugin"; then
         ok "asdf $plugin plugin already installed"
@@ -79,7 +90,7 @@ for plugin in python ruby; do
     fi
 done
 
-# 8. Symlink .tool-versions
+# 9. Symlink .tool-versions
 info 'Symlinking .tool-versions...'
 if [[ -f "$HOME/.tool-versions" && ! -L "$HOME/.tool-versions" ]]; then
     mv "$HOME/.tool-versions" "$HOME/.tool-versions.bak"
@@ -88,15 +99,15 @@ fi
 ln -sfn "$DOTFILES_DIR/.tool-versions" "$HOME/.tool-versions"
 ok '.tool-versions symlinked'
 
-# 9. Install tool versions from .tool-versions
+# 10. Install tool versions from .tool-versions
 info 'Installing asdf tool versions...'
 asdf install
 ok 'Tool versions installed'
 
-# 10. Ensure ~/.cache exists (used by brew-check.zsh)
+# 11. Ensure ~/.cache exists (used by brew-check.zsh)
 mkdir -p "$HOME/.cache"
 
-# 11. Make deployed dotfiles read-only to prevent accidental edits
+# 12. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.tool-versions"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
