@@ -1,0 +1,11 @@
+# Machine-local overrides (not version controlled)
+.zshrc.local
+.zsh/*.local.zsh
+
+# Secrets and credentials
+*.key
+*.pem
+*.secret
+
+# macOS
+.DS_Store
