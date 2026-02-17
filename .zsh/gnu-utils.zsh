@@ -16,3 +16,6 @@ path=(
     "${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin"
     $path
 )
+
+# Set LS_COLORS for GNU ls (BSD uses LSCOLORS, which OMZ sets but GNU ignores)
+eval "$(dircolors)"
