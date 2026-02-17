@@ -12,6 +12,7 @@ Personal zsh configuration for macOS with Oh My Zsh.
   environment.zsh      # LANG, EDITOR, PATH entries
   gnu-utils.zsh        # GNU coreutils/findutils/etc. PATH setup
   asdf.zsh             # asdf version manager + custom `which` extension
+  aliases.zsh          # Custom shell aliases
   brew-check.zsh       # Daily Homebrew update check with upgrade prompt
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
@@ -32,8 +33,16 @@ The install script will:
 2. Install Oh My Zsh (if not already present)
 3. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 4. Back up any existing files before overwriting
+5. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh
+
+## Development workflow
+
+The deployed copy lives at `~/dotfiles`. Make changes in a separate working
+copy (e.g. `~/workspace/dotfiles`), then push to GitHub and pull into the
+deployed copy. The install script makes deployed files read-only, so accidental
+edits there will fail with a permission error.
 
 ## Adding new modular configs
 

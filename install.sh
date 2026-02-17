@@ -71,5 +71,11 @@ ok '.zsh/ symlinked'
 # 7. Ensure ~/.cache exists (used by brew-check.zsh)
 mkdir -p "$HOME/.cache"
 
+# 8. Make deployed dotfiles read-only to prevent accidental edits
+info 'Making deployed dotfiles read-only...'
+chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
+find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
+ok 'Deployed dotfiles are now read-only'
+
 echo ''
 info 'Done! Run `exec zsh` to reload your shell.'
