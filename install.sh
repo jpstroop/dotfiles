@@ -98,6 +98,11 @@ else
     info 'Resolving latest tool versions...'
     for plugin in python ruby; do
         version=$(asdf latest "$plugin")
+        # Avoid free-threaded Python builds (versions ending in "t") --
+        # most tooling doesn't support the no-GIL builds yet
+        if [[ "$version" == *t ]]; then
+            version=$(asdf list all "$plugin" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -1)
+        fi
         echo "$plugin $version" >> "$TOOL_VERSIONS"
         ok "$plugin $version"
     done
