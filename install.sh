@@ -118,7 +118,16 @@ ok 'Tool versions installed'
 # 11. Ensure ~/.cache exists (used by brew-check.zsh)
 mkdir -p "$HOME/.cache"
 
-# 12. Make deployed dotfiles read-only to prevent accidental edits
+# 12. Create ~/.secrets if it doesn't exist
+if [[ ! -f "$HOME/.secrets" ]]; then
+    touch "$HOME/.secrets"
+    chmod 600 "$HOME/.secrets"
+    ok 'Created ~/.secrets (add private environment variables here)'
+else
+    ok '~/.secrets already exists'
+fi
+
+# 13. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +

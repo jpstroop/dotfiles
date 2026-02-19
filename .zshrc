@@ -69,3 +69,6 @@ source "${0:A:h}/.zsh/gnu-utils.zsh"
 source "${0:A:h}/.zsh/asdf.zsh"
 source "${0:A:h}/.zsh/aliases.zsh"
 source "${0:A:h}/.zsh/brew-check.zsh"
+
+# Private environment variables — never version controlled
+[[ -f ~/.secrets ]] && source ~/.secrets

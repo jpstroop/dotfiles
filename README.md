@@ -91,6 +91,20 @@ source "${0:A:h}/.zsh/my-new-config.zsh"
 The `${0:A:h}` pattern resolves symlinks, so source paths work whether
 `.zshrc` is accessed directly or via the `~/.zshrc` symlink.
 
+## Secrets and private environment variables
+
+`~/.secrets` is sourced at the end of `.zshrc` for private environment
+variables. It lives outside this repo and is created empty (mode `600`)
+by the install script.
+
+```sh
+# ~/.secrets
+export GITHUB_TOKEN='ghp_...'
+export AWS_ACCESS_KEY_ID='...'
+```
+
+**Security warning:** Do not add `~/.secrets` or its contents to this repo.
+
 ## License
 
 MIT
