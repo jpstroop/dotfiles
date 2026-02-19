@@ -133,12 +133,12 @@ mkdir -p "$HOME/.ssh/config.d"
 chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
 ln -sfn "$DOTFILES_DIR/.ssh/config.d/github" "$HOME/.ssh/config.d/github"
 ok '.ssh/config.d/github symlinked'
-if ! grep -q 'Include ~/.ssh/config.d/\*' "$HOME/.ssh/config" 2>/dev/null; then
-    printf 'Include ~/.ssh/config.d/*\n\n' >> "$HOME/.ssh/config"
-    ok 'Added Include directive to ~/.ssh/config'
-else
-    ok '~/.ssh/config already has Include directive'
+if [[ -f "$HOME/.ssh/config" && ! -L "$HOME/.ssh/config" ]]; then
+    mv "$HOME/.ssh/config" "$HOME/.ssh/config.bak"
+    warn 'Existing ~/.ssh/config backed up to ~/.ssh/config.bak'
 fi
+ln -sfn "$DOTFILES_DIR/.ssh/config" "$HOME/.ssh/config"
+ok '.ssh/config symlinked'
 for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
     ln -sfn "$pubkey" "$HOME/.ssh/$(basename "$pubkey")"
 done

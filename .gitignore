@@ -9,6 +9,7 @@
 
 # SSH — ignore everything except versioned config fragments and public keys
 .ssh/*
+!.ssh/config
 !.ssh/config.d/
 !.ssh/config.d/github
 !.ssh/*.pub

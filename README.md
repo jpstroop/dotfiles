@@ -15,6 +15,7 @@ Personal zsh configuration for macOS with Oh My Zsh.
   aliases.zsh          # Custom shell aliases
   brew-check.zsh       # Daily Homebrew update check with upgrade prompt
 .ssh/
+  config               # Include directive and global Host * defaults
   config.d/
     github             # SSH config for github.com (add work hosts locally, not here)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
