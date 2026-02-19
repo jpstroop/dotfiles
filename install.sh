@@ -127,7 +127,24 @@ else
     ok '~/.secrets already exists'
 fi
 
-# 13. Make deployed dotfiles read-only to prevent accidental edits
+# 13. Set up SSH config
+info 'Setting up SSH config...'
+mkdir -p "$HOME/.ssh/config.d"
+chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
+ln -sfn "$DOTFILES_DIR/.ssh/config.d/github" "$HOME/.ssh/config.d/github"
+ok '.ssh/config.d/github symlinked'
+if ! grep -q 'Include ~/.ssh/config.d/\*' "$HOME/.ssh/config" 2>/dev/null; then
+    printf 'Include ~/.ssh/config.d/*\n\n' >> "$HOME/.ssh/config"
+    ok 'Added Include directive to ~/.ssh/config'
+else
+    ok '~/.ssh/config already has Include directive'
+fi
+for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
+    ln -sfn "$pubkey" "$HOME/.ssh/$(basename "$pubkey")"
+done
+ok 'SSH public keys symlinked'
+
+# 14. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +

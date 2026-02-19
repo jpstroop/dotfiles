@@ -7,6 +7,12 @@
 *.pem
 *.secret
 
+# SSH — ignore everything except versioned config fragments and public keys
+.ssh/*
+!.ssh/config.d/
+!.ssh/config.d/github
+!.ssh/*.pub
+
 # Shell history (machine-specific, potentially sensitive)
 .zsh_history
 

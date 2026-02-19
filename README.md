@@ -14,8 +14,12 @@ Personal zsh configuration for macOS with Oh My Zsh.
   asdf.zsh             # asdf version manager + custom `which` extension
   aliases.zsh          # Custom shell aliases
   brew-check.zsh       # Daily Homebrew update check with upgrade prompt
+.ssh/
+  config.d/
+    github             # SSH config for github.com (add work hosts locally, not here)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
+update.sh              # Pull latest and sync packages/tool versions
 ```
 
 ## Setup
@@ -35,7 +39,8 @@ The install script will:
 4. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 5. Back up any existing files before overwriting
 6. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
-7. Make deployed dotfiles read-only to prevent accidental edits
+7. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
+8. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh
 
@@ -90,6 +95,52 @@ source "${0:A:h}/.zsh/my-new-config.zsh"
 
 The `${0:A:h}` pattern resolves symlinks, so source paths work whether
 `.zshrc` is accessed directly or via the `~/.zshrc` symlink.
+
+## SSH config
+
+`~/.ssh/config` uses the `Include` directive to load fragments from `~/.ssh/config.d/`.
+Only `github` is versioned here. Machine-specific hosts go in additional files in
+`~/.ssh/config.d/` and are never committed:
+
+```sh
+# Create a new fragment for work hosts (example)
+cat > ~/.ssh/config.d/work << 'EOF'
+Host bastion
+    HostName bastion.example.com
+    User jstroop
+    IdentityFile ~/.ssh/id_ed25519
+    ForwardAgent yes
+
+Host dev
+    HostName dev.example.com
+    User jstroop
+    ProxyJump bastion
+EOF
+```
+
+Public keys (`.pub`) are versioned for reference. Private keys are never committed
+and must be set up manually after running `install.sh`.
+
+**On a new machine** (generate fresh keys, then register the public key with GitHub/servers):
+
+```sh
+ssh-keygen -t ed25519 -C "your@email.com"
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+**On a replacement machine** (transfer keys from the old machine):
+
+```sh
+scp old-machine:~/.ssh/id_ed25519 ~/.ssh/
+chmod 600 ~/.ssh/id_ed25519
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+`--apple-use-keychain` stores the passphrase in macOS Keychain so you are not
+prompted on every reboot.
+
+**Security warning:** Never add private keys or `known_hosts` to this repo. The root
+`.gitignore` ignores everything in `.ssh/` except `config.d/github` and `*.pub` files.
 
 ## Secrets and private environment variables
 
