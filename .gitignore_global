@@ -1,0 +1,75 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# PDM
+.pdm-python
+.pdm-build/
+__pypackages__/
+
+# Testing and analysis
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Ruby
+.bundle/
+vendor/bundle/
+*.gem
+.ruby-version
+*.rbc
+rerun.txt
+.byebug_history
+
+# macOS
+.DS_Store
+.AppleDouble
+._*
+.Spotlight-V100
+.Trashes
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Credentials (never commit these)
+secrets.json
+tokens.json
+secrets
+
+# Personal
+.claude/
+CLAUDE.md
+PROJECT.md
+NOTES.md
+TODO.md

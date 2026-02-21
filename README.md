@@ -20,6 +20,7 @@ Personal zsh configuration for macOS with Oh My Zsh.
   config.d/
     github             # SSH config for github.com (add work hosts locally, not here)
 .gitconfig             # Global git configuration
+.gitignore_global      # Global gitignore (symlinked to ~/.gitignore)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 update.sh              # Sync packages/tool versions after pulling new dotfile commits
@@ -42,9 +43,10 @@ The install script will:
 4. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 5. Back up any existing files before overwriting
 6. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
-7. Symlink `.gitconfig`
-8. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
-9. Make deployed dotfiles read-only to prevent accidental edits
+7. Symlink `.gitignore_global` to `~/.gitignore`
+8. Symlink `.gitconfig`
+9. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
+10. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh
 

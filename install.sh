@@ -127,7 +127,16 @@ else
     ok '~/.secrets already exists'
 fi
 
-# 13. Symlink .gitconfig
+# 13. Symlink .gitignore_global
+info 'Symlinking .gitignore_global...'
+if [[ -f "$HOME/.gitignore" && ! -L "$HOME/.gitignore" ]]; then
+    mv "$HOME/.gitignore" "$HOME/.gitignore.bak"
+    warn 'Existing ~/.gitignore backed up to ~/.gitignore.bak'
+fi
+ln -sfn "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore"
+ok '.gitignore_global symlinked to ~/.gitignore'
+
+# 15. Symlink .gitconfig
 info 'Symlinking .gitconfig...'
 if [[ -f "$HOME/.gitconfig" && ! -L "$HOME/.gitconfig" ]]; then
     mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
@@ -153,9 +162,9 @@ for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
 done
 ok 'SSH public keys symlinked'
 
-# 15. Make deployed dotfiles read-only to prevent accidental edits
+# 16. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
-chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig"
+chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig" "$DOTFILES_DIR/.gitignore_global"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
 ok 'Deployed dotfiles are now read-only'
 
