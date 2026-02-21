@@ -127,7 +127,16 @@ else
     ok '~/.secrets already exists'
 fi
 
-# 13. Set up SSH config
+# 13. Symlink .gitconfig
+info 'Symlinking .gitconfig...'
+if [[ -f "$HOME/.gitconfig" && ! -L "$HOME/.gitconfig" ]]; then
+    mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
+    warn 'Existing .gitconfig backed up to ~/.gitconfig.bak'
+fi
+ln -sfn "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ok '.gitconfig symlinked'
+
+# 14. Set up SSH config
 info 'Setting up SSH config...'
 mkdir -p "$HOME/.ssh/config.d"
 chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
@@ -144,9 +153,9 @@ for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
 done
 ok 'SSH public keys symlinked'
 
-# 14. Make deployed dotfiles read-only to prevent accidental edits
+# 15. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
-chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc"
+chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
 ok 'Deployed dotfiles are now read-only'
 
