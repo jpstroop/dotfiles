@@ -61,12 +61,16 @@ Adds asdf shims to `PATH` and sets up completions. We also extends `asdf which`
 with an optional third argument to look up the executable path for a specific 
 version:
 
-```sh
-asdf which python 3.7.6
-# /Users/you/.asdf/installs/python/3.7.6/bin/python
-```
+This makes it possible to run scripts with a specific version of python without
+messing around with `.tool-versions`, e.g.:
 
-BROKEN
+```sh
+$(asdf which python 3.14.3) -c "from sys import version_info as v; print(f'Hello from Python {v.major}.{v.minor}.{v.micro}')"
+Hello from Python 3.14.3
+
+$(asdf which python 3.11.14) -c "from sys import version_info as v; print(f'Hello from Python {v.major}.{v.minor}.{v.micro}')"
+Hello from Python 3.11.14
+````
 
 ### Daily automated checks
 
