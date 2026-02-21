@@ -14,13 +14,14 @@ Personal zsh configuration for macOS with Oh My Zsh.
   asdf.zsh             # asdf version manager + custom `which` extension
   aliases.zsh          # Custom shell aliases
   brew-check.zsh       # Daily Homebrew update check with upgrade prompt
+  asdf-check.zsh       # Daily check for newer stable python/ruby versions
 .ssh/
   config               # Include directive and global Host * defaults
   config.d/
     github             # SSH config for github.com (add work hosts locally, not here)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
-update.sh              # Pull latest and sync packages/tool versions
+update.sh              # Sync packages/tool versions after pulling new dotfile commits
 ```
 
 ## Setup
@@ -50,24 +51,42 @@ Homebrew itself must be installed first: https://brew.sh
 ### GNU coreutils over BSD
 
 GNU coreutils, findutils, grep, sed, tar, and others are more full-featured
-than the BSD versions that ship with macOS. This config installs them via
-Homebrew and prepends them to `PATH` so they take precedence.
-`LS_COLORS` is set via `dircolors` for colored `ls` output.
+than the BSD versions that ship with macOS. We nstall them via Homebrew and 
+prepend them to `PATH` so they take precedence. `LS_COLORS` is set via 
+`dircolors` for colored `ls` output.
 
 ### asdf version manager
 
-Adds asdf shims to `PATH` and sets up completions. Extends `asdf which` with an
-optional third argument to look up the executable path for a specific version:
+Adds asdf shims to `PATH` and sets up completions. We also extends `asdf which` 
+with an optional third argument to look up the executable path for a specific 
+version:
 
 ```sh
 asdf which python 3.7.6
 # /Users/you/.asdf/installs/python/3.7.6/bin/python
 ```
 
-### Homebrew update check
+BROKEN
 
-On shell startup, if it's been more than 24 hours since the last check, runs
-`brew update` and lists outdated packages with an interactive upgrade prompt.
+### Daily automated checks
+
+On shell startup, two checks run if it's been more than 24 hours since they last ran (each has its own stamp file in `~/.cache/`):
+
+- **`brew-check.zsh`** — runs `brew update` and lists outdated packages with an interactive upgrade prompt
+- **`asdf-check.zsh`** — checks for newer stable python and ruby releases and prompts to update `~/.tool-versions` and install
+
+### Manual sync (`update.sh`)
+
+After pulling new commits, run `update.sh` to sync everything:
+
+- `brew bundle` — installs any packages added to the Brewfile
+- SSH public key symlinks — picks up any new `.pub` files added to the repo
+- `asdf install` — installs any tool versions added to `.tool-versions`
+
+```sh
+git -C ~/dotfiles pull
+~/dotfiles/update.sh
+```
 
 ### Prompt
 
