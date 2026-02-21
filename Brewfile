@@ -27,4 +27,4 @@ brew 'pdm'
 brew 'libyaml'
 
 # Fonts
-cask 'font-cascadia-code'
+cask 'font-fira-code'

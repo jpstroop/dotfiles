@@ -16,7 +16,14 @@ info 'Syncing Homebrew packages...'
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 ok 'Homebrew packages synced'
 
-# 3. Install any new asdf tool versions
+# 3. Sync SSH public key symlinks
+info 'Syncing SSH public key symlinks...'
+for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
+    ln -sfn "$pubkey" "$HOME/.ssh/$(basename "$pubkey")"
+done
+ok 'SSH public keys synced'
+
+# 4. Install any new asdf tool versions
 info 'Syncing asdf tool versions...'
 asdf install
 ok 'asdf tool versions synced'
