@@ -19,8 +19,6 @@ Personal zsh configuration for macOS with Oh My Zsh.
   config               # Include directive and global Host * defaults
   config.d/
     github             # SSH config for github.com (add work hosts locally, not here)
-.gitconfig             # Global git configuration
-.gitignore_global      # Global gitignore (symlinked to ~/.gitignore)
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 update.sh              # Sync packages/tool versions after pulling new dotfile commits
@@ -43,10 +41,8 @@ The install script will:
 4. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 5. Back up any existing files before overwriting
 6. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
-7. Symlink `.gitignore_global` to `~/.gitignore`
-8. Symlink `.gitconfig`
-9. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
-10. Make deployed dotfiles read-only to prevent accidental edits
+7. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
+8. Make deployed dotfiles read-only to prevent accidental edits
 
 Homebrew itself must be installed first: https://brew.sh
 
@@ -61,12 +57,12 @@ prepend them to `PATH` so they take precedence. `LS_COLORS` is set via
 
 ### asdf version manager
 
-Adds asdf shims to `PATH` and sets up completions. We also extends `asdf which` 
+Adds asdf shims to `PATH` and sets up completions. We also extend `asdf which` 
 with an optional third argument to look up the executable path for a specific 
 version:
 
 This makes it possible to run scripts with a specific version of python without
-messing around with `.tool-versions`, e.g.:
+messing around with `.tool-versions`, shims, paths, etc, e.g.:
 
 ```sh
 $(asdf which python 3.14.3) -c "from sys import version_info as v; print(f'Hello from Python {v.major}.{v.minor}.{v.micro}')"
@@ -74,7 +70,7 @@ Hello from Python 3.14.3
 
 $(asdf which python 3.11.14) -c "from sys import version_info as v; print(f'Hello from Python {v.major}.{v.minor}.{v.micro}')"
 Hello from Python 3.11.14
-````
+```
 
 ### Daily automated checks
 
@@ -111,9 +107,9 @@ and show hidden files (`-a`).
 The deployed copy lives at `~/dotfiles`. Make changes in a separate working
 copy (e.g. `~/workspace/dotfiles`), then push to GitHub and pull into the
 deployed copy. The install script makes deployed files read-only, so accidental
-edits there will fail with a permission error.
+edits are less likely.
 
-## Adding new modular configs
+## Adding new scripts
 
 Create a new `.zsh` file in the `.zsh/` directory and add a source line to `.zshrc`:
 
@@ -124,7 +120,7 @@ source "${0:A:h}/.zsh/my-new-config.zsh"
 The `${0:A:h}` pattern resolves symlinks, so source paths work whether
 `.zshrc` is accessed directly or via the `~/.zshrc` symlink.
 
-## SSH config
+## SSH config / Key generation notes
 
 `~/.ssh/config` uses the `Include` directive to load fragments from `~/.ssh/config.d/`.
 Only `github` is versioned here. Machine-specific hosts go in additional files in
@@ -167,7 +163,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 `--apple-use-keychain` stores the passphrase in macOS Keychain so you are not
 prompted on every reboot.
 
-**Security warning:** Never add private keys or `known_hosts` to this repo. The root
+**Never** add private keys or `known_hosts` to this repo. The root
 `.gitignore` ignores everything in `.ssh/` except `config.d/github` and `*.pub` files.
 
 ## Secrets and private environment variables
@@ -182,8 +178,8 @@ export GITHUB_TOKEN='ghp_...'
 export AWS_ACCESS_KEY_ID='...'
 ```
 
-**Security warning:** Do not add `~/.secrets` or its contents to this repo.
+**Do not** add `~/.secrets` to the repo.
 
 ## License
 
-MIT
+[MIT](LICENSE)
