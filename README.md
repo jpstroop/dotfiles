@@ -22,6 +22,7 @@ Personal zsh configuration for macOS with Oh My Zsh.
 Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 update.sh              # Sync packages/tool versions after pulling new dotfile commits
+macos.sh               # System customizations (called by install.sh and update.sh)
 ```
 
 ## Setup
@@ -101,6 +102,27 @@ Overrides the robbyrussell theme to show the full path relative to `$HOME`
 
 Overrides Oh My Zsh's `ls` alias to use GNU-compatible flags (`--color=auto`)
 and show hidden files (`-a`).
+
+## System customizations
+
+`macos.sh` is run automatically by `install.sh` and `update.sh`. Currently:
+
+- Hides cluttering home directory folders from Finder (Music, Pictures, Public, Movies, Documents)
+- Sets key repeat to maximum speed
+- Always shows file extensions; disables extension change warning
+- New Finder windows open to home directory
+- Shows path bar in Finder; sets default view to list
+- Disables recent apps in Dock
+- Saves screenshots to `~/screenshots`; disables drop shadow
+- Saves new documents to disk instead of iCloud
+- Requires password immediately after screensaver
+- Disables `.DS_Store` creation on network and USB volumes
+
+To reverse the hidden folders:
+
+```sh
+chflags nohidden ~/Music
+```
 
 ## Development workflow
 

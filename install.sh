@@ -162,7 +162,10 @@ for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
 done
 ok 'SSH public keys symlinked'
 
-# 16. Make deployed dotfiles read-only to prevent accidental edits
+# 16. Apply macOS customizations
+"$DOTFILES_DIR/macos.sh"
+
+# 17. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig" "$DOTFILES_DIR/.gitignore_global"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +

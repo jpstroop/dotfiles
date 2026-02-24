@@ -23,5 +23,8 @@ info 'Syncing asdf tool versions...'
 asdf install
 ok 'asdf tool versions synced'
 
+# 5. Apply macOS customizations
+"$DOTFILES_DIR/macos.sh"
+
 echo ''
 info 'Done! Run `exec zsh` to reload your shell.'
