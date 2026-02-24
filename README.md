@@ -77,12 +77,12 @@ Hello from Python 3.11.14
 
 On shell startup, two checks run if it's been more than 24 hours since they last ran (each has its own stamp file in `~/.cache/`):
 
-- **`brew-check.zsh`** — runs `brew update` and lists outdated packages with an interactive upgrade prompt
-- **`asdf-check.zsh`** — checks for newer stable python and ruby releases and prompts to update `~/.tool-versions` and install
+- **[`brew-check.zsh`](.zsh/brew-check.zsh)** — runs `brew update` and lists outdated packages with an interactive upgrade prompt
+- **[`asdf-check.zsh`](.zsh/asdf-check.zsh)** — checks for newer stable python and ruby releases and prompts to update `~/.tool-versions` and install
 
 ### Manual sync (`update.sh`)
 
-After pulling new commits, run `update.sh` to sync everything:
+After pulling new commits, run [`update.sh`](update.sh) to sync everything:
 
 - `brew bundle` — installs any packages added to the Brewfile
 - SSH public key symlinks — picks up any new `.pub` files added to the repo
@@ -105,7 +105,7 @@ and show hidden files (`-a`).
 
 ## System customizations
 
-`macos.sh` is run automatically by `install.sh` and `update.sh`. Currently:
+[`macos.sh`](macos.sh) is run automatically by [`install.sh`](install.sh) and [`update.sh`](update.sh). Currently:
 
 - Hides cluttering home directory folders from Finder (Music, Pictures, Public, Movies, Documents)
 - Sets key repeat to maximum speed
@@ -165,7 +165,7 @@ EOF
 ```
 
 Public keys (`.pub`) are versioned for reference. Private keys are never committed
-and must be set up manually after running `install.sh`.
+and must be set up manually after running [`install.sh`](install.sh).
 
 **On a new machine** (generate fresh keys, then register the public key with GitHub/servers):
 
@@ -192,7 +192,7 @@ prompted on every reboot.
 
 `~/.secrets` is sourced at the end of `.zshrc` for private environment
 variables. It lives outside this repo and is created empty (mode `600`)
-by the install script.
+by [`install.sh`](install.sh).
 
 ```sh
 # ~/.secrets
