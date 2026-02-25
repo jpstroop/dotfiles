@@ -11,7 +11,7 @@ for dir in Music Pictures Public Movies Documents; do
 done
 
 # Key repeat speed (units are 1/60s; lower = faster; macOS default is 6/25)
-defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain KeyRepeat -int 3
 defaults write NSGlobalDomain InitialKeyRepeat -int 20
 ok 'Key repeat speed set'
 
