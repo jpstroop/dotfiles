@@ -27,5 +27,8 @@ brew 'pdm'
 # Build dependencies for asdf-managed languages
 brew 'libyaml'
 
+# Applications
+cask 'iterm2'
+
 # Fonts
 cask 'font-fira-code'

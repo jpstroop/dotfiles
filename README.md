@@ -23,6 +23,8 @@ Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 update.sh              # Sync packages/tool versions after pulling new dotfile commits
 macos.sh               # System customizations (called by install.sh and update.sh)
+iterm2/
+  jstroop.json         # iTerm2 profile (symlinked to ~/Library/.../DynamicProfiles/)
 export.sh              # Export sensitive keys and secrets to an encrypted bundle
 import.sh              # Import an encrypted bundle from export.sh
 ```
@@ -65,8 +67,9 @@ import.sh              # Import an encrypted bundle from export.sh
 5. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
 6. Symlink `.gitignore_global`, `.gitconfig`, and `.ssh/config`
 7. Symlink `.ssh/config.d/github` and public keys
-8. Apply macOS customizations via [`macos.sh`](macos.sh)
-9. Make deployed dotfiles read-only to prevent accidental edits
+8. Symlink iTerm2 Dynamic Profile to `~/Library/Application Support/iTerm2/DynamicProfiles/`
+9. Apply macOS customizations via [`macos.sh`](macos.sh)
+10. Make deployed dotfiles read-only to prevent accidental edits
 
 ## What's customized
 

@@ -136,7 +136,7 @@ fi
 ln -sfn "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore"
 ok '.gitignore_global symlinked to ~/.gitignore'
 
-# 15. Symlink .gitconfig
+# 14. Symlink .gitconfig
 info 'Symlinking .gitconfig...'
 if [[ -f "$HOME/.gitconfig" && ! -L "$HOME/.gitconfig" ]]; then
     mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
@@ -145,7 +145,7 @@ fi
 ln -sfn "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ok '.gitconfig symlinked'
 
-# 14. Set up SSH config
+# 15. Set up SSH config
 info 'Setting up SSH config...'
 mkdir -p "$HOME/.ssh/config.d"
 chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
@@ -162,10 +162,16 @@ for pubkey in "$DOTFILES_DIR"/.ssh/*.pub; do
 done
 ok 'SSH public keys symlinked'
 
-# 16. Apply macOS customizations
+# 16. Symlink iTerm2 Dynamic Profile
+info 'Symlinking iTerm2 profile...'
+mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+ln -sfn "$DOTFILES_DIR/iterm2/jstroop.json" "$HOME/Library/Application Support/iTerm2/DynamicProfiles/jstroop.json"
+ok 'iTerm2 profile symlinked'
+
+# 17. Apply macOS customizations
 "$DOTFILES_DIR/macos.sh"
 
-# 17. Make deployed dotfiles read-only to prevent accidental edits
+# 18. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig" "$DOTFILES_DIR/.gitignore_global"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +
