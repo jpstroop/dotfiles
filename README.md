@@ -23,29 +23,50 @@ Brewfile               # Homebrew packages (GNU utils, git, asdf, pdm, fonts)
 install.sh             # Bootstrap script for a fresh machine
 update.sh              # Sync packages/tool versions after pulling new dotfile commits
 macos.sh               # System customizations (called by install.sh and update.sh)
+export.sh              # Export sensitive keys and secrets to an encrypted bundle
+import.sh              # Import an encrypted bundle from export.sh
 ```
 
 ## Setup
 
-Clone to `~/dotfiles` and run the install script:
+### Fresh machine
 
-```sh
-git clone https://github.com/jpstroop/dotfiles.git ~/dotfiles
-~/dotfiles/install.sh
-exec zsh
-```
+1. Install Xcode Command Line Tools (provides `git`):
+   ```sh
+   xcode-select --install
+   ```
+2. Install Homebrew:
+   ```sh
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+3. Install `gnupg` (needed to decrypt the export bundle):
+   ```sh
+   brew install gnupg
+   ```
+4. Clone via HTTPS (no SSH keys yet):
+   ```sh
+   git clone https://github.com/jpstroop/dotfiles.git ~/dotfiles
+   ```
+5. If moving from another machine, transfer the export bundle and run [`import.sh`](import.sh) to restore SSH keys, GPG keys, and secrets:
+   ```sh
+   ~/dotfiles/import.sh
+   ```
+6. Run [`install.sh`](install.sh):
+   ```sh
+   ~/dotfiles/install.sh
+   exec zsh
+   ```
 
-The install script will:
-1. Install Xcode Command Line Tools (if not already present)
-2. Install Homebrew packages from the Brewfile
-3. Install Oh My Zsh (if not already present)
-4. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
-5. Back up any existing files before overwriting
-6. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
-7. Symlink `.ssh/config.d/github` and add an `Include` directive to `~/.ssh/config`
-8. Make deployed dotfiles read-only to prevent accidental edits
-
-Homebrew itself must be installed first: https://brew.sh
+[`install.sh`](install.sh) will:
+1. Install Homebrew packages from the Brewfile
+2. Install Oh My Zsh (if not already present)
+3. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
+4. Back up any existing files before overwriting
+5. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
+6. Symlink `.gitignore_global`, `.gitconfig`, and `.ssh/config`
+7. Symlink `.ssh/config.d/github` and public keys
+8. Apply macOS customizations via [`macos.sh`](macos.sh)
+9. Make deployed dotfiles read-only to prevent accidental edits
 
 ## What's customized
 
@@ -123,6 +144,33 @@ To reverse the hidden folders:
 ```sh
 chflags nohidden ~/Music
 ```
+
+## Moving to a new machine
+
+On the old machine, run [`export.sh`](export.sh) to create an encrypted bundle:
+
+```sh
+~/dotfiles/export.sh
+```
+
+It will prompt for an output path (defaults to `~/Desktop/dotfiles-export-<date>.tgz.gpg`)
+and a passphrase. The bundle contains:
+
+- SSH private keys
+- Local `~/.ssh/config.d/` fragments (non-versioned ones like `work`)
+- GPG private keys and owner trust
+- `~/.secrets`
+
+Transfer the bundle to the new machine (AirDrop, USB, etc.), then run
+[`import.sh`](import.sh):
+
+```sh
+~/dotfiles/import.sh
+```
+
+It will prompt for the bundle path and passphrase, restore all files to the
+correct locations with correct permissions, and add the SSH key to the agent.
+Run [`install.sh`](install.sh) afterwards if it's a fresh machine.
 
 ## Development workflow
 

@@ -18,6 +18,7 @@ brew 'wget'
 
 # Core tools
 brew 'git'
+brew 'gnupg'
 
 # Version and package management
 brew 'asdf'
