@@ -9,6 +9,6 @@
 #   %d or %/   — absolute path (e.g. "/Users/jstroop/workspace/project/src")
 #   %2~        — last 2 path components (e.g. "project/src")
 
-# PROMPT="%(?:%{$fg_bold[green]%}%1{➜%} :%{$fg_bold[red]%}%1{➜%} ) %{$fg[cyan]%}%~%{$reset_color%}"
-PROMPT="%(?:%{$fg_bold[green]%}%1{$%}:%{$fg_bold[red]%}%1{➜%} ) %{$fg[cyan]%}%~%{$reset_color%}"
+
+PROMPT="%(?:%{$fg_bold[green]%}%1{$%}:%{$fg_bold[red]%}%1{$%} ) %{$fg[cyan]%}%~%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)'
