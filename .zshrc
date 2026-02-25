@@ -19,7 +19,7 @@ zstyle ':omz:update' mode auto
 # zstyle ':omz:update' frequency 13  # days between update checks
 
 # Case-sensitive tab completion (default: case-insensitive)
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Treat hyphens and underscores as interchangeable in completion
 # (only works when CASE_SENSITIVE is not "true")
