@@ -18,6 +18,8 @@ brew 'wget'
 
 # Core tools
 brew 'git'
+brew 'gh'
+brew 'gnupg'
 
 # Version and package management
 brew 'asdf'
@@ -25,6 +27,9 @@ brew 'pdm'
 
 # Build dependencies for asdf-managed languages
 brew 'libyaml'
+
+# Applications
+cask 'iterm2'
 
 # Fonts
 cask 'font-fira-code'
