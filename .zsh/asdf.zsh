@@ -34,3 +34,6 @@ function asdf() {
         command asdf "$@"
     fi
 }
+
+# for Go
+. ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
