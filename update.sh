@@ -19,8 +19,8 @@ done
 ok 'SSH public keys synced'
 
 # 4. Install any new asdf tool versions
-info 'Syncing asdf tool versions...'
-asdf install
+info 'Syncing asdf tool versions from ~/.tool-versions...'
+(cd "$HOME" && asdf install)
 ok 'asdf tool versions synced'
 
 # 5. Apply macOS customizations

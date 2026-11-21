@@ -90,10 +90,10 @@ for plugin in python ruby; do
     fi
 done
 
-# 9. Generate .tool-versions if it doesn't exist
-TOOL_VERSIONS="$DOTFILES_DIR/.tool-versions"
+# 9. Generate ~/.tool-versions if it doesn't exist
+TOOL_VERSIONS="$HOME/.tool-versions"
 if [[ -f "$TOOL_VERSIONS" ]]; then
-    ok '.tool-versions already exists'
+    ok '~/.tool-versions already exists'
 else
     info 'Resolving latest tool versions...'
     for plugin in python ruby; do
@@ -107,12 +107,10 @@ else
         ok "$plugin $version"
     done
 fi
-ln -sfn "$TOOL_VERSIONS" "$HOME/.tool-versions"
-ok '.tool-versions symlinked'
 
-# 10. Install tool versions from .tool-versions
+# 10. Install tool versions from ~/.tool-versions
 info 'Installing asdf tool versions (this may take a few minutes)...'
-asdf install
+(cd "$HOME" && asdf install)
 ok 'Tool versions installed'
 
 # 11. Ensure ~/.cache exists (used by brew-check.zsh)

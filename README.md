@@ -64,7 +64,7 @@ import.sh              # Import an encrypted bundle from export.sh
 2. Install Oh My Zsh (if not already present)
 3. Symlink `.zprofile`, `.zshrc`, and `.zsh/` into your home directory
 4. Back up any existing files before overwriting
-5. Install asdf plugins (python, ruby), generate `.tool-versions` with latest versions on first run, and install them
+5. Install asdf plugins (python, ruby), generate `~/.tool-versions` with latest versions on first run, and install them (`~/.tool-versions` is a regular, machine-local file — not versioned or symlinked)
 6. Symlink `.gitignore_global`, `.gitconfig`, and `.ssh/config`
 7. Symlink `.ssh/config.d/github` and public keys
 8. Symlink iTerm2 Dynamic Profile to `~/Library/Application Support/iTerm2/DynamicProfiles/`
@@ -120,7 +120,7 @@ After pulling new commits, run [`update.sh`](update.sh) to sync everything:
 
 - `brew bundle` — installs any packages added to the Brewfile
 - SSH public key symlinks — picks up any new `.pub` files added to the repo
-- `asdf install` — installs any tool versions added to `.tool-versions`
+- `asdf install` — installs any tool versions added to `~/.tool-versions` (always run from `$HOME`, so a project-local `.tool-versions` in the current directory is never used)
 
 ```sh
 git -C ~/dotfiles pull
