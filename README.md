@@ -97,6 +97,16 @@ $(asdf which python 3.11.14) -c "from sys import version_info as v; print(f'Hell
 Hello from Python 3.11.14
 ```
 
+#### asdf and `brew bundle`
+
+[`environment.zsh`](.zsh/environment.zsh) sets `HOMEBREW_BUNDLE_DUMP_NO_GO` and
+`HOMEBREW_BUNDLE_CLEANUP_NO_GO`. `brew bundle dump` / `cleanup` finds the asdf
+`go` shim on your `PATH` but runs it with Homebrew's sanitized `PATH`, where
+`asdf` isn't available, so it fails with `exec: asdf: not found` (exit 127). Go
+is managed by asdf, so Go packages don't belong in the Brewfile anyway. npm is
+not affected (bundle restores the full `PATH` for npm). If cargo or uv are ever
+installed via asdf, the same fix may be needed (`..._NO_CARGO`, `..._NO_UV`).
+
 ### Daily automated checks
 
 On shell startup, two checks run if it's been more than 24 hours since they last ran (each has its own stamp file in `~/.cache/`):
