@@ -166,10 +166,23 @@ mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 ln -sfn "$DOTFILES_DIR/iterm2/jstroop.json" "$HOME/Library/Application Support/iTerm2/DynamicProfiles/jstroop.json"
 ok 'iTerm2 profile symlinked'
 
-# 17. Apply macOS customizations
+# 17. Symlink Claude Code agents
+info 'Symlinking Claude Code agents...'
+mkdir -p "$HOME/.claude/agents"
+for agent in "$DOTFILES_DIR"/agents/*.md(N); do
+    target="$HOME/.claude/agents/$(basename "$agent")"
+    if [[ -f "$target" && ! -L "$target" ]]; then
+        mv "$target" "$target.bak"
+        warn "Existing $(basename "$agent") backed up to $target.bak"
+    fi
+    ln -sfn "$agent" "$target"
+done
+ok 'Claude Code agents symlinked'
+
+# 18. Apply macOS customizations
 "$DOTFILES_DIR/macos.sh"
 
-# 18. Make deployed dotfiles read-only to prevent accidental edits
+# 19. Make deployed dotfiles read-only to prevent accidental edits
 info 'Making deployed dotfiles read-only...'
 chmod a-w "$DOTFILES_DIR/.zprofile" "$DOTFILES_DIR/.zshrc" "$DOTFILES_DIR/.gitconfig" "$DOTFILES_DIR/.gitignore_global"
 find "$DOTFILES_DIR/.zsh" -type f -exec chmod a-w {} +

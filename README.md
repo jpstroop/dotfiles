@@ -25,6 +25,8 @@ update.sh              # Sync packages/tool versions after pulling new dotfile c
 macos.sh               # System customizations (called by install.sh and update.sh)
 iterm2/
   jstroop.json         # iTerm2 profile (symlinked to ~/Library/.../DynamicProfiles/)
+agents/                # Claude Code subagents (each .md symlinked into ~/.claude/agents/)
+  python-expert-engineer.md
 export.sh              # Export sensitive keys and secrets to an encrypted bundle
 import.sh              # Import an encrypted bundle from export.sh
 ```
@@ -120,6 +122,7 @@ After pulling new commits, run [`update.sh`](update.sh) to sync everything:
 
 - `brew bundle` — installs any packages added to the Brewfile
 - SSH public key symlinks — picks up any new `.pub` files added to the repo
+- Claude Code agent symlinks — links any new `agents/*.md` into `~/.claude/agents/`
 - `asdf install` — installs any tool versions added to `~/.tool-versions` (always run from `$HOME`, so a project-local `.tool-versions` in the current directory is never used)
 
 ```sh
