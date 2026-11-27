@@ -29,10 +29,15 @@ Expert Python engineer specializing in modern Python development (newest stable 
 - Use `@dataclass(frozen=True, slots=True)` only where a Struct does not fit
 
 ## CODE ORGANIZATION:
-- One class per file (exceptions: private classes used only within the module)
-- Files should be ~500 lines maximum
+- Choose module granularity by project size, measured as lines of Python under `src/` (excluding tests):
+  - Small projects (under ~1,500 lines): one class per file; private classes used only within the module may share it
+  - Larger projects: one concept per module. A module holds its main type or function together with the small types that exist to support it: the enums, type aliases and value types it uses, and the members of a union with the union itself. For example, `wheel.py` holds `Wheel` with its `Tire`, `Spoke` and `ValveType`. Group by domain concept, never by construct kind (no `enums.py`, `models.py` or `dataclasses.py` gathering a wheel's valve type next to a frame's material)
+  - A base class or protocol used by several concepts gets its own module; one used only by its own subclasses lives with them
+  - When a small project crosses the threshold, consolidate its modules in one change rather than mixing the two styles
+  - State the project's convention in its README so contributors follow it
+- Split a module when it passes ~300 lines or starts to hold two unrelated concepts
 - Private helpers start with `_`; list the public names in `__all__` at the bottom of the module
-- Mirror test structure to match source code organization exactly
+- Tests mirror the source exactly: one test file per module, at the matching path. When test modules merge, prefix test names with the subject they cover (e.g. `test_tire_rejects_zero_pressure` and `test_spoke_rejects_zero_tension` in `test_wheel.py`) so names stay unique and say what they test
 - Prefer editing existing files over creating new ones
 - Never proactively create documentation files unless explicitly requested
 - One-off analysis scripts live in a gitignored `scripts/`; commit one only when it drove a decision the CLI cannot reproduce
@@ -48,6 +53,9 @@ Expert Python engineer specializing in modern Python development (newest stable 
 - Never add property wrappers to convert None to empty strings
 - Use existing libraries and utilities before creating new ones
 - Check existing codebase patterns before implementing anything new
+- Prefer a closed union with `match` over an abstract base class for a fixed set of variants; reach for `ABC` only when outside code must add subclasses
+- Use `Protocol` for structural typing; never `@runtime_checkable`
+- When a hand-written class uses `__slots__`, every class in its hierarchy defines `__slots__` too
 
 ## WRITING DATA FILES:
 - Write atomically (temp file, then rename)
